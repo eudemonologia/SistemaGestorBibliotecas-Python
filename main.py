@@ -2,7 +2,7 @@ import vista
 import modelo
 
 if __name__ == '__main__':
-    DB_Name = 'biblioteca.sqlite'
-    USUARIO = 'Cristian Diego Góngora Pabón'
-    modelo.iniciar(DB_Name)
-    vista.iniciar(USUARIO)
+    DB_NAME = 'biblioteca.sqlite'
+    USER_NAME = 'Cristian Diego Góngora Pabón'
+    modelo.iniciar(DB_NAME)
+    vista.iniciar(USER_NAME)
