@@ -47,12 +47,18 @@ def iniciar(nombre_usuario: str) -> None:
     tabla_libros.column("Estante", anchor=CENTER, width=200)
 
     # Encabezados de la tabla
-    tabla_libros.heading("Id", text="Id", anchor=CENTER)
-    tabla_libros.heading("Estado", text="Estado", anchor=CENTER)
-    tabla_libros.heading("Titulo", text="Titulo", anchor=CENTER)
-    tabla_libros.heading("Autor", text="Autor", anchor=CENTER)
-    tabla_libros.heading("Editorial", text="Editorial", anchor=CENTER)
-    tabla_libros.heading("Estante", text="Estante", anchor=CENTER)
+    tabla_libros.heading("Id", text="Id", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Id", True))
+    tabla_libros.heading("Estado", text="Estado", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Estado", False))
+    tabla_libros.heading("Titulo", text="Titulo", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Titulo", False))
+    tabla_libros.heading("Autor", text="Autor", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Autor", False))
+    tabla_libros.heading("Editorial", text="Editorial", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Editorial", False))
+    tabla_libros.heading("Estante", text="Estante", anchor=CENTER, command=lambda: ordenar_tabla(
+        tabla_libros, "Estante", False))
 
     # Sumar contenido a la tabla
     refrescar_contenido(tabla_libros)
@@ -222,6 +228,16 @@ def refrescar_contenido(tabla: ttk.Treeview) -> None:
     tabla.delete(*tabla.get_children())
     for libro in lista_libros:
         tabla.insert("", END, values=libro)
+
+
+def ordenar_tabla(tabla: ttk.Treeview, columna: str, reversa: bool) -> None:
+    """Ordena la tabla por una columna."""
+    nueva_lista = [(tabla.set(k, columna), k) for k in tabla.get_children()]
+    nueva_lista.sort(reverse=reversa)
+    for index, (val, k) in enumerate(nueva_lista):
+        tabla.move(k, '', index)
+    tabla.heading(columna, command=lambda: ordenar_tabla(
+        tabla, columna, not reversa))
 
 
 def check_input_combo(combo: ttk.Combobox, variable: StringVar, lista: list) -> None:
